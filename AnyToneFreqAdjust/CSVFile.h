@@ -12,23 +12,21 @@ enum FILE_STATE {
 };
 
 // Begin Vector of vector of pairs, each pair is: <std::string, std::string>
+//		"No.", "<No.0>"
 //		"Channel Name", "<name0>"
-//		"Channel Name", "<name1>"
-//		...
-//		"Channel Name", "<nameN>"
 //		"Receive Frequency", "<rx freq0>"
-//		"Receive Frequency", "<rx freq1>"
-//		...
-//		"Receive Frequency", "<rx freqN>"
 //		"Transmit Frequency", "<tx freq0>"
+//		...
+//		"No.", "<No.1>"
+//		"Channel Name", "<name1>"
+// 		"Receive Frequency", "<rx freq1>"
 //		"Transmit Frequency", "<tx freq1>"
 //		...
+//		"No.", "<No.N>"
+//		"Channel Name", "<nameN>"
+//		"Receive Frequency", "<rx freqN>"
 //		"Transmit Frequency", "<tx freqN>"
 //
-//
-// For each category:
-//		Under the category string of the current index:
-//			Add the item to the vector with this string label
 // 
 
 // Data type for the list of key-value pairs
