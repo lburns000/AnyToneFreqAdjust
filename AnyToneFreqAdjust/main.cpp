@@ -29,33 +29,38 @@ int main(int argc, char* argv[])
 
 	if (std::string(argv[2]) == "offset") {
 		std::string band(argv[3]);
+		int offset{ 0 };
 		if (band == "vhf") {
-			int offset;
+			//int offset;
 			if (std::string(argv[4]) == "reset") {
 				offset = 0;
 			}
 			else {
 				offset = std::stoi(std::string(argv[4]));
 			}
+			std::cout << "Applying offset of " << offset << " to each VHF channel..." << std::endl;
 			channelFile.SetOffsetsVHF(offset);
 		}
 		else if (band == "uhf") {
-			int offset;
+			//int offset;
 			if (std::string(argv[4]) == "reset") {
 				offset = 0;
 			}
 			else {
 				offset = std::stoi(std::string(argv[4]));
 			}
+			std::cout << "Applying offset of " << offset << " to each UHF channel..." << std::endl;
 			channelFile.SetOffsetsUHF(offset);
 		}
 		else if (band == "all") {
-			int offset;
+			//int offset;
 			if (std::string(argv[4]) == "reset") {
+				std::cout << "Resetting all offsets..." << std::endl;
 				channelFile.RemoveAllOffsets();
 			}
 			else {
 				offset = std::stoi(std::string(argv[4]));
+				std::cout << "Applying offset of " << offset << " to every channel..." << std::endl;
 				channelFile.SetOffsetsVHF(offset);
 				channelFile.SetOffsetsUHF(offset);
 			}
