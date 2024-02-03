@@ -20,20 +20,15 @@ CSVFile::CSVFile(std::string filename) :
         return;
     }
 
-    //if (!ReadCategories()) {
-    //    m_state = FS_ERROR;
-    //    return;
-    //}
-
     if (!PopulateData()) {
         m_state = FS_ERROR;
         return;
     }
 
-    // Debug
-    for (const auto& it : m_categories) {
-        //std::cout << it << std::endl;
-    }
+    //// Debug
+    //for (const auto& it : m_categories) {
+    //    std::cout << it << std::endl;
+    //}
 
     bool foundFreqOffset = false;
     size_t n = 0;
@@ -304,18 +299,7 @@ bool CSVFile::ReadCategories()
 
         // Line break after list of categories
         std::cout << std::endl;
-    }
-
-
-
-    std::string line;
-    //while (std::getline(m_file, line)) {
-    //    std::string freq = ReadFrequencyOffset(line, m_offsetFrequencyColumn);
-    //    //std::cout << "Freq offset: " << freq << std::endl;
-    //}
-
-    //std::cout << std::endl;
-    
+    }    
 
     return true;
 }
@@ -396,98 +380,6 @@ bool CSVFile::ParseLine(const std::string& line, bool categories)
 
     return true;
 }
-
-///* Read the frequency offset in the current row */
-//std::string CSVFile::ReadFrequencyOffset(const std::string& line, size_t column)
-//{
-//    // Format: "value","value",..."value"
-//
-//    //std::cout << "ReadFrequencyOffset(" << line << ", " << column << ")" << std::endl;
-//    std::string freq;
-//
-//    // Get the word that's in quotes
-//    //auto StripQuotes = [](std::string& str) {
-//    //    auto begin = str.find('"');
-//    //    auto end = str.find('"', begin+1);
-//    //    str = str.substr(begin + 1, end - begin - 1);
-//    //};
-//
-//    size_t n = 0;
-//    for (size_t i = 0; i < column; ++i) {
-//        //std::cout << "i = " << i << std::endl;
-//        // Find the begin quote
-//        size_t temp = line.find('"', n);
-//        //std::cout << "Found \" at pos " << temp << std::endl;
-//        //++temp; // Move past the quote
-//        //freq = line.substr(temp);
-//        //n = temp;
-//        //// Find the end quote
-//        //temp = line.find('"', n);
-//        ////std::cout << "Found \" at pos " << temp << std::endl;
-//        //++temp;
-//        /* We are now sitting on a comma unless this was the last item in the line.
-//        *  If a comma, there will be more quotes after it.
-//        */
-//        freq = line.substr(temp);
-//        //std::cout << "freq is now: " << freq << std::endl;
-//
-//        
-//        // We are just before the channel number column, so the next column is the channel number.
-//        if (i == m_numberColumn) {
-//            std::string numStr = freq;
-//            StripQuotes(numStr);
-//            m_data.push_back(std::make_pair(m_categories[i], numStr));
-//            std::cout << "Channel number: " << numStr << ", ";
-//        }
-//
-//        // We are just before the name column so the next item is the name. Most convenient to process here.
-//        if (i == m_nameColumn) {
-//            std::string name = freq;
-//            StripQuotes(name);
-//            m_data.push_back(std::make_pair(m_categories[i], name));
-//            std::cout << "Channel name: " << name << ", ";
-//        }
-//
-//        // We are just before the rx frequency column so the next item is the name. Most convenient to process here.
-//        if (i == m_rxFrequencyColumn) {
-//            std::string rxFreq = freq;
-//            StripQuotes(rxFreq);
-//            std::cout << "Rx Frequency: " << rxFreq;
-//            int freqInt = std::stoi(rxFreq);
-//            if (freqInt >= 400) {
-//                std::cout << " (UHF), ";
-//            }
-//            else {
-//                std::cout << " (VHF), ";
-//            }
-//        }
-//
-//        // We are just before the tx frequency column so the next item is the name. Most convenient to process here.
-//        if (i == m_txFrequencyColumn) {
-//            std::string txFreq = freq;
-//            StripQuotes(txFreq);
-//            std::cout << "Tx Frequency: " << txFreq;
-//            int freqInt = std::stoi(txFreq);
-//            if (freqInt >= 400) {
-//                std::cout << " (UHF), ";
-//            }
-//            else {
-//                std::cout << " (VHF), ";
-//            }
-//        }
-//
-//        n = temp;
-//    }
-//
-//    //freq = freq.substr(1);
-//    //n = freq.find('"');
-//    //freq = freq.substr(0, n);
-//
-//    StripQuotes(freq);
-//    //std::cout << "freq: " << freq << std::endl;
-//
-//    return freq;
-//}
 
 void CSVFile::Close()
 {

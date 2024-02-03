@@ -52,7 +52,6 @@ private:
 	bool		ReadCategories();
 	bool		PopulateData();
 	bool		ParseLine(const std::string& line, bool categories = false);
-	//std::string ReadFrequencyOffset(const std::string& line, size_t column);
 	void		Close();
 	void		PrintCategories();
 
