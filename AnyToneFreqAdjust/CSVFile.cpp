@@ -3,7 +3,7 @@
 
 #include "CSVFile.h"
 
-CSVFile::CSVFile(std::string filename) :
+CSVFile::CSVFile(const std::string& filename) :
     m_filename(filename),
     m_state(FS_NONE),
     m_numberColumn(0),
@@ -60,13 +60,14 @@ CSVFile::~CSVFile()
     Close();
 }
 
-bool CSVFile::CategoryExists(std::string category)
+bool CSVFile::CategoryExists(const std::string& category)
 {
-    if (std::find(m_categories.begin(), m_categories.end(), category) == m_categories.end()) {
-        return false;
+    for (auto it : m_categories) {
+        if (it == category)
+            return true;
     }
 
-    return true;
+    return false;
 }
 
 std::vector<std::string> CSVFile::GetItemsInCategory(std::string category)

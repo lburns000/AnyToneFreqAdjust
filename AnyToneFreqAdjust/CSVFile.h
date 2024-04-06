@@ -35,10 +35,10 @@ typedef std::vector<std::pair<std::string, std::string>> CSVData;
 class CSVFile
 {
 public:
-	CSVFile(std::string filename);
+	CSVFile(const std::string& filename);
 	~CSVFile();
 
-	bool CategoryExists(std::string category);
+	bool CategoryExists(const std::string& category);
 	std::vector<std::string> GetItemsInCategory(std::string category);
 
 	void SetOffsetsUHF(int offset);
