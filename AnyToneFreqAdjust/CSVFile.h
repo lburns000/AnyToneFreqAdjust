@@ -1,9 +1,13 @@
-#pragma once
+// #pragma once
+
+#ifndef CSVFILE_H
+#define CSVFILE_H
 
 #include <fstream>
 #include <string>
 #include <vector>
 #include <utility>
+
 
 enum FILE_STATE {
 	FS_NONE,
@@ -38,14 +42,21 @@ public:
 	CSVFile(const std::string& filename);
 	~CSVFile();
 
-	bool CategoryExists(const std::string& category);
-	std::vector<std::string> GetItemsInCategory(std::string category);
+	bool CategoryExists(const std::string& category) const;
+	std::vector<std::string> GetItemsInCategory(const std::string& category) const;
+	void SetItemsInCategory(const std::string& category, const std::vector<std::string>& items);
+	void SetItemsInBooleanCategory(const std::string& category, const std::vector<bool>& items);
+	void SetOneValueInRow(const std::string& channelName, const std::string& category, const std::string& value);
 
 	void SetOffsetsUHF(int offset);
 	void SetOffsetsVHF(int offset);
 	void RemoveAllOffsets();
 
+	CSVData& GetData() { return m_data; }
+
 	bool WriteChanges();
+	void Rename(const std::string& filename);
+	bool IsValid() { return m_state == FS_VALID; };
 
 private:
 	bool		Open(bool write = false);
@@ -72,3 +83,5 @@ private:
 	std::string					m_currentCategory;
 };
 
+
+#endif

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <sstream>
+#include <cassert>
 
 #include "CSVFile.h"
 
@@ -60,7 +61,7 @@ CSVFile::~CSVFile()
     Close();
 }
 
-bool CSVFile::CategoryExists(const std::string& category)
+bool CSVFile::CategoryExists(const std::string& category) const
 {
     for (auto it : m_categories) {
         if (it == category)
@@ -70,7 +71,7 @@ bool CSVFile::CategoryExists(const std::string& category)
     return false;
 }
 
-std::vector<std::string> CSVFile::GetItemsInCategory(std::string category)
+std::vector<std::string> CSVFile::GetItemsInCategory(const std::string& category) const
 {
     if (!CategoryExists(category)) {
         return std::vector<std::string>();
@@ -85,6 +86,62 @@ std::vector<std::string> CSVFile::GetItemsInCategory(std::string category)
     }
 
     return items;
+}
+
+void CSVFile::SetItemsInCategory(const std::string &category, const std::vector<std::string> &items)
+{
+    if (!CategoryExists(category))
+        return;
+
+    std::vector<std::string> curItems;
+    for (const auto& it : m_data) {
+        if (it.first == category)
+            curItems.push_back(it.second);
+    }
+
+    assert(curItems.size() <= items.size());
+    
+    unsigned int curItemIndex = 0;
+    for (auto& it : m_data) {
+        if (it.first == category) {
+            assert(curItemIndex < curItems.size());
+            it = std::make_pair(category, items[curItemIndex++]);
+        }
+    }
+}
+
+void CSVFile::SetItemsInBooleanCategory(const std::string &category, const std::vector<bool> &items)
+{
+    std::vector<std::string> strItems;
+
+    for (const auto it : items) {
+        if (it == true)
+            strItems.push_back(std::string("1"));
+        else
+            strItems.push_back(std::string("0"));
+    }
+
+    SetItemsInCategory(category, strItems);
+}
+
+void CSVFile::SetOneValueInRow(const std::string &channelName, const std::string &category, const std::string &value)
+{
+    std::vector<std::string> channelNames = GetItemsInCategory("Channel Name");
+    std::vector<std::string> channelDataCategory = GetItemsInCategory(category);
+    bool foundChannelName = false;
+    for (unsigned int i = 0; i < channelNames.size(); ++i) {
+        if (channelNames.at(i) == channelName) {
+            channelDataCategory[i] = value;
+            foundChannelName = true;
+            break;
+        }
+    }
+
+    if (!foundChannelName)
+        return;
+
+    SetItemsInCategory(category, channelDataCategory);
+
 }
 
 void CSVFile::SetOffsetsUHF(int offset)
@@ -197,6 +254,13 @@ bool CSVFile::WriteChanges()
     return true;
 }
 
+void CSVFile::Rename(const std::string &filename)
+{
+    assert(filename.length() > 0);
+
+    m_filename = filename;
+}
+
 bool CSVFile::Open(bool write)
 {
     if (write) {
@@ -233,6 +297,8 @@ bool CSVFile::ReadCategories()
         *       Advance past the first quote
         *       Read the word up to the second quote
         *       Advance to after the second quote
+        * 
+        *   TODO: Handle the case of no quotes
         */
 
         size_t n = 0;
