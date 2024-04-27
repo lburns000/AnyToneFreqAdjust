@@ -20,21 +20,25 @@ bool MainControl::OpenFile(const std::string &filename)
     if (!m_file->CategoryExists("Channel Name")) {
         delete m_file;
         m_file = nullptr;
+        return false;
     }
     if (!m_file->CategoryExists("Transmit Frequency")) {
         delete m_file;
         m_file = nullptr;
+        return false;
     }    
     if (!m_file->CategoryExists("Correct Frequency[Hz]")) {
         delete m_file;
         m_file = nullptr;
+        return false;
     }
     if (!m_file->IsValid()) {
         delete m_file;
         m_file = nullptr;
+        return false;
     }
 
-    return (m_file != nullptr);
+    return true;
 }
 
 void MainControl::GetFileData(ChannelOffsetDataList& vhfData, ChannelOffsetDataList& uhfData)
@@ -162,6 +166,7 @@ void FilePanel::OnOpenFileButtonClicked(wxCommandEvent &event)
         return;
 
     if (m_control->OpenFile(openDialog->GetPath().ToStdString())) {
+        std::cout << "Opened CSV file successfully" << std::endl;
         ChannelOffsetDataList vhfData, uhfData;
         m_control->GetFileData(vhfData, uhfData);
         m_frame->SetChannelOffsetData(vhfData, uhfData);

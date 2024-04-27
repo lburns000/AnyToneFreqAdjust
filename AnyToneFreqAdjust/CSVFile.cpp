@@ -21,6 +21,7 @@ CSVFile::CSVFile(const std::string& filename) :
         return;
     }
 
+
     if (!PopulateData()) {
         m_state = FS_ERROR;
         return;
@@ -46,11 +47,11 @@ CSVFile::CSVFile(const std::string& filename) :
     
     if (foundFreqOffset) {
         m_state = FS_VALID;
-        //std::cout << "Found frequency offset adjust at column " << n << std::endl;
+        std::cout << "Found frequency offset adjust at column " << n << std::endl;
     }
     else {
         m_state = FS_ERROR;
-        //std::cout << "Did not find frequency offset adjust column!" << std::endl;
+        std::cout << "Did not find frequency offset adjust column!" << std::endl;
     }
 
     Close();
@@ -63,6 +64,9 @@ CSVFile::~CSVFile()
 
 bool CSVFile::CategoryExists(const std::string& category) const
 {
+    if (m_categories.size() == 0)
+        return false;
+
     for (auto it : m_categories) {
         if (it == category)
             return true;
@@ -73,9 +77,8 @@ bool CSVFile::CategoryExists(const std::string& category) const
 
 std::vector<std::string> CSVFile::GetItemsInCategory(const std::string& category) const
 {
-    if (!CategoryExists(category)) {
+    if (!CategoryExists(category))
         return std::vector<std::string>();
-    }
 
     std::vector<std::string> items;
 
