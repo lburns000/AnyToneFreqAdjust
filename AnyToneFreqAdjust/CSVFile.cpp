@@ -217,14 +217,14 @@ bool CSVFile::WriteChanges()
     // Write categories line
     for (size_t i = 0; i < m_categories.size(); ++i) {
         m_file << '"' << m_categories[i] << '"';
-        //std::cout << m_categories[i];
+        std::cout << m_categories[i];
         if (i != m_categories.size() - 1) {
             m_file << ',' << std::flush;
-            //std::cout << ',' << std::flush;
+            std::cout << ',' << std::flush;
         }
         else {
             m_file << std::endl;
-            //std::cout << std::endl;
+            std::cout << std::endl;
         }
     }
 
@@ -316,15 +316,16 @@ bool CSVFile::ParseLine(const std::string &line, bool categories)
 
         ne = temp.find(',');
         if (ne == std::string::npos) {
-            ne = temp.length() - 1;
+            // ne = temp.length() - 1;
+            ne = temp.length();
             lastItem = true;
         }
 
         // Get the next item
         item = temp.substr(nb, ne - nb);
-        std::cout << "Current item without stripping quotes is: " << item << std::endl;
+        // std::cout << "Current item without stripping quotes is: " << item << std::endl;
         StripQuotes(item);
-        std::cout << "Current item is: " << item << std::endl;
+        // std::cout << "Current item is: " << item << std::endl;
         if (categories) {
             m_categories.push_back(item);
         }
@@ -332,12 +333,12 @@ bool CSVFile::ParseLine(const std::string &line, bool categories)
             m_data.push_back(std::make_pair(m_categories.at(index), item));
         }
 
-        // Continue parsing next item
-        temp = temp.substr(ne + 1);
-
-        //std::cout << "Now parsing next item in string: " << temp << std::endl;
-
-        ++index;
+        if (!lastItem) {
+            // Continue parsing next item
+            temp = temp.substr(ne + 1);
+            //std::cout << "Now parsing next item in string: " << temp << std::endl;
+            ++index;
+        }
     }
 
     return true;
