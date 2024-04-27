@@ -172,6 +172,9 @@ void FilePanel::OnOpenFileButtonClicked(wxCommandEvent &event)
         m_frame->SetChannelOffsetData(vhfData, uhfData);
         EnableSaveButtons();
     }
+    else {
+        m_control->ShowError("Invalid CSV File!");
+    }
 }
 
 void FilePanel::OnSaveFileButtonClicked(wxCommandEvent &event)
