@@ -277,100 +277,6 @@ bool CSVFile::Open(bool write)
     return true;
 }
 
-bool CSVFile::ReadCategories()
-{
-    if (!m_file.is_open()) {
-        return false;
-    }
-
-    std::string item;
-
-    //while (std::getline(m_file, item)) {
-    //    std::cout << item << ' ';
-    //    m_categories.push_back(item);
-    //}
-
-    if (std::getline(m_file, item)) {
-        //std::cout << item << ' ';
-
-        /*  Each item will appear as : "item", so :
-        *       Advance past the first quote
-        *       Read the word up to the second quote
-        *       Advance to after the second quote
-        * 
-        *   TODO: Handle the case of no quotes
-        */
-
-        size_t n = 0;
-        size_t nPrev = 0;
-
-        std::cout << "Categories:" << std::endl;
-
-        while (n != std::string::npos) {
-            //n = item.find('"', nPrev);
-            nPrev = n;
-
-            // Get the first quote
-            n = item.find('"', nPrev) + 1;
-            if (n == std::string::npos) {
-                break;
-            }
-            nPrev = n;
-
-            // Get the second quote
-            n = item.find('"', nPrev);
-
-            // Add the item to the list
-            std::string s = item.substr(nPrev, n - nPrev);
-            m_categories.push_back(s);
-            //std::cout << "  " << s << std::endl;
-
-            // Columns used, but not changed //////////////////////////
-            // Check for channel number column
-            if (s == "No.") {
-                m_numberColumn = m_categories.size() - 1;
-                //std::cout << "number column: " << m_numberColumn << std::endl;
-            }
-            // Check for name column
-            else if (s == "Channel Name") {
-                m_nameColumn = m_categories.size() - 1;
-                //std::cout << "name column: " << m_nameColumn << std::endl;
-            }
-            // Check for receive frequency column
-            else if (s == "Receive Frequency") {
-                m_rxFrequencyColumn = m_categories.size() - 1;
-                //std::cout << "rx frequency column: " << m_rxFrequencyColumn << std::endl;
-            }
-            // Check for transmit frequency column
-            else if (s == "Transmit Frequency") {
-                m_txFrequencyColumn = m_categories.size() - 1;
-                //std::cout << "tx frequency column: " << m_txFrequencyColumn << std::endl;
-            }
-
-            // Columns that are changed ////////////////////////////////
-            // Check for frequency offset column
-            else if (s == "Correct Frequency[Hz]") {
-                m_offsetFrequencyColumn = m_categories.size() - 1;
-                //std::cout << "frequency offset column: " << m_offsetFrequencyColumn << std::endl;
-            }
-
-
-            // Get the comma
-            nPrev = n;
-            n = item.find(',', nPrev);
-            if (n == std::string::npos) {
-                break;
-            }
-            n++;           
-        }
-
-        // Line break after list of categories
-        std::cout << std::endl;
-    }    
-
-    return true;
-}
-
 bool CSVFile::PopulateData()
 {
     if (!m_file.is_open()) {
@@ -384,6 +290,7 @@ bool CSVFile::PopulateData()
         return false;
     }
 
+    // ParseLine(line, true);
     ParseLine(line, true);
 
     // Read the rest of the lines to get the data for each category
@@ -395,35 +302,29 @@ bool CSVFile::PopulateData()
     return true;
 }
 
-bool CSVFile::ParseLine(const std::string& line, bool categories)
+bool CSVFile::ParseLine(const std::string &line, bool categories)
 {
     size_t nb = 0;
     size_t ne = 0;
     std::string temp = line;
     std::string item;
     size_t index = 0;
+    bool lastItem = false;
 
-    // Keep looking for quotes
-    while (true) {
+    // Keep looking for commas
+    while (!lastItem) {
 
-        // Look for the first quote
-        nb = temp.find('"');
-        if (nb == std::string::npos)
-            break;
-
-        //std::cout << "Begin quote found at position " << nb << std::endl;
-
-        // Look for the second quote
-        ne = temp.find('"', nb + 1);
-        if (ne == std::string::npos)
-            break;
-
-        //std::cout << "End quote found at position " << ne << std::endl;
+        ne = temp.find(',');
+        if (ne == std::string::npos) {
+            ne = temp.length() - 1;
+            lastItem = true;
+        }
 
         // Get the next item
         item = temp.substr(nb, ne - nb);
+        std::cout << "Current item without stripping quotes is: " << item << std::endl;
         StripQuotes(item);
-        //std::cout << "Current item is: " << item << std::endl;
+        std::cout << "Current item is: " << item << std::endl;
         if (categories) {
             m_categories.push_back(item);
         }
@@ -431,14 +332,8 @@ bool CSVFile::ParseLine(const std::string& line, bool categories)
             m_data.push_back(std::make_pair(m_categories.at(index), item));
         }
 
-        // Continue parsing after the end quotes
+        // Continue parsing next item
         temp = temp.substr(ne + 1);
-
-        // If there is no comma, we are done with the line
-        if (temp.find(',') == std::string::npos)
-            break;
-
-        temp = temp.substr(1);
 
         //std::cout << "Now parsing next item in string: " << temp << std::endl;
 
@@ -470,6 +365,10 @@ void CSVFile::PrintCategories()
 void CSVFile::StripQuotes(std::string& s)
 {
     auto begin = s.find('"');
+    if (begin == std::string::npos)
+        return;
     auto end = s.find('"', begin + 1);
+    if (end == std::string::npos)
+        return;
     s = s.substr(begin + 1, end - begin - 1);
 }

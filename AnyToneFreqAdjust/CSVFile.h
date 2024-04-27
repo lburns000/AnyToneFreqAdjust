@@ -60,9 +60,8 @@ public:
 
 private:
 	bool		Open(bool write = false);
-	bool		ReadCategories();
 	bool		PopulateData();
-	bool		ParseLine(const std::string& line, bool categories = false);
+	bool        ParseLine(const std::string& line, bool categories = false);
 	void		Close();
 	void		PrintCategories();
 
