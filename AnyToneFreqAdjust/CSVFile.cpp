@@ -316,13 +316,53 @@ bool CSVFile::ParseLine(const std::string &line, bool categories)
 
     // Keep looking for commas
     while (!lastItem) {
+        // Check if item is in quotes (commas don't separate values if so)
 
-        ne = temp.find(',');
-        if (ne == std::string::npos) {
-            // ne = temp.length() - 1;
+        // Read for the next comma or double quote, whichever appears first
+        auto q = temp.find('"');
+        auto c = temp.find(',');
+        // If no comma was found:
+        if (c == std::string::npos) {
+            std::cout << "ParseLine(): No comma found" << std::endl;
             ne = temp.length();
             lastItem = true;
         }
+        // Else if double quote appears before comma:
+        else if ((q != std::string::npos) && (q < c)) {
+            // std::cout << "double quote found at position: " << q << std::endl;
+            // Read for the next double quote (If a comma is found before the next double quote it only counts as text)
+            auto qq = temp.find('"', q + 1);
+            // std::cout << "matching double quote found at position: " << qq << std::endl;
+            // If another double quote was not found:
+            if (qq == std::string::npos) {
+                // Error
+                std::cerr << "Error parsing line in file - no matching end quote" << std::endl;
+                return false;
+            } 
+            // Read for the next comma - this will be the end of the item
+            ne = temp.find(',', qq + 1);
+            // If no comma was found, this is the last item
+            if (ne == std::string::npos) {
+                ne = temp.length();
+                lastItem = true;
+            }
+        }
+        // Else, there were no quotes, continue as normal
+        else {
+            ne = temp.find(',');
+            if (ne == std::string::npos) {
+                ne = temp.length();
+                lastItem = true;
+            }
+        }
+
+        // ne = temp.find(',');
+        // if (ne == std::string::npos) {
+        //     ne = temp.length();
+        //     lastItem = true;
+        // }
+
+
 
         // Get the next item
         item = temp.substr(nb, ne - nb);
