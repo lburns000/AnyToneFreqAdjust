@@ -294,7 +294,7 @@ void ChannelOffsetListBox::GetData(ChannelOffsetDataList &data)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ChannelOffsetDataPanel::ChannelOffsetDataPanel(MainFrame *parent, const wxPoint &position, const std::string& labelText, MainControl* control) :
-wxPanel(parent, wxID_ANY, position, wxSize(300, 600)),
+wxPanel(parent, wxID_ANY, position, wxSize(300, 520)),
 m_labelText(labelText),
 m_label(nullptr),
 m_channelListBox(nullptr),

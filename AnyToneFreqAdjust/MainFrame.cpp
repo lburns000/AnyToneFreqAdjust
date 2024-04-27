@@ -139,7 +139,7 @@ MainControl::~MainControl()
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 FilePanel::FilePanel(MainFrame* parent, const wxPoint& position, MainControl* control) :
-wxPanel(parent, wxID_ANY, position, wxSize(332, 100)),
+wxPanel(parent, wxID_ANY, position, wxSize(300, 100)),
 m_openFileButton(nullptr),
 m_saveFileButton(nullptr),
 m_saveFileAsButton(nullptr),
@@ -221,10 +221,9 @@ void FilePanel::OnSaveAsFileButtonMouseOver(wxEvent &event)
 
 void FilePanel::DrawControls()
 {
-    m_openFileButton = new wxButton(this, wxID_ANY, "Open File...", wxPoint(32, 32), wxSize(100, 32));
-    m_saveFileButton = new wxButton(this, wxID_ANY, "Save File...", wxPoint(132, 32), wxSize(100, 32));    
-    m_saveFileAsButton = new wxButton(this, wxID_ANY, "Save As...", wxPoint(232, 32), wxSize(100, 32));
-    
+    m_openFileButton = new wxButton(this, wxID_ANY, "Open File...", wxPoint(0, 32), wxSize(100, 32));
+    m_saveFileButton = new wxButton(this, wxID_ANY, "Save File...", wxPoint(100, 32), wxSize(100, 32));    
+    m_saveFileAsButton = new wxButton(this, wxID_ANY, "Save As...", wxPoint(200, 32), wxSize(100, 32));
 }
 
 void FilePanel::BindControls()
@@ -284,7 +283,7 @@ void MainFrame::SetChannelOffsetData(const ChannelOffsetDataList &vhfData, const
 
 void MainFrame::DrawWidgets()
 {
-    m_filePanel = new FilePanel(this, wxPoint(0, 600), m_control);
+    m_filePanel = new FilePanel(this, wxPoint(32, 560), m_control);
     m_vhfPanel = new ChannelOffsetDataPanel(this, wxPoint(32, 16), "VHF Channels", m_control);
     m_uhfPanel = new ChannelOffsetDataPanel(this, wxPoint(364, 16), "UHF Channels", m_control);
 
