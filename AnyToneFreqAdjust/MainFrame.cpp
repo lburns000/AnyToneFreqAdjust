@@ -85,14 +85,10 @@ void MainControl::SetFileData(const ChannelOffsetDataList& vhfData, const Channe
     std::vector<std::pair<std::string, std::string>> allChannelNameOffsetPairs;
 
     for (unsigned int i = 0; i < vhfData.GetSize(); ++i) {
-        if (vhfChannelSelectedData.at(i) == false)
-            continue;
         allChannelNameOffsetPairs.push_back(std::make_pair(vhfChannelNameData.at(i), vhfChannelOffsetData.at(i)));
     }
 
     for (unsigned int i = 0; i < uhfData.GetSize(); ++i) {
-        if (uhfChannelSelectedData.at(i) == false)
-            continue;
         allChannelNameOffsetPairs.push_back(std::make_pair(uhfChannelNameData.at(i), uhfChannelOffsetData.at(i)));
     }
 
