@@ -16,7 +16,7 @@ wxIMPLEMENT_APP(App);
 bool App::OnInit()
 {
 	MainFrame* mainFrame = new MainFrame("AnyTone Frequency Offset Tool");
-	mainFrame->SetSize(700, 800);
+	mainFrame->SetSize(900, 800);
 	mainFrame->Center();
 	mainFrame->Show();
 

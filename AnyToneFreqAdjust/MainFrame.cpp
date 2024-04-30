@@ -135,7 +135,7 @@ MainControl::~MainControl()
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 FilePanel::FilePanel(MainFrame* parent, const wxPoint& position, MainControl* control) :
-wxPanel(parent, wxID_ANY, position, wxSize(300, 100)),
+wxPanel(parent, wxID_ANY, position, wxSize(400, 100)),
 m_openFileButton(nullptr),
 m_saveFileButton(nullptr),
 m_saveFileAsButton(nullptr),
@@ -217,9 +217,12 @@ void FilePanel::OnSaveAsFileButtonMouseOver(wxEvent &event)
 
 void FilePanel::DrawControls()
 {
-    m_openFileButton = new wxButton(this, wxID_ANY, "Open File...", wxPoint(0, 32), wxSize(100, 32));
-    m_saveFileButton = new wxButton(this, wxID_ANY, "Save File...", wxPoint(100, 32), wxSize(100, 32));    
-    m_saveFileAsButton = new wxButton(this, wxID_ANY, "Save As...", wxPoint(200, 32), wxSize(100, 32));
+    m_openFileButton = new wxButton(this, wxID_ANY, "Open File...", wxPoint(32, 56), wxSize(100, 32));
+    m_saveFileButton = new wxButton(this, wxID_ANY, "Save File...", wxPoint(150, 56), wxSize(100, 32));    
+    m_saveFileAsButton = new wxButton(this, wxID_ANY, "Save As...", wxPoint(266, 56), wxSize(100, 32));
+
+    // For testing
+    // SetBackgroundColour(wxColour(0x00ff00));
 }
 
 void FilePanel::BindControls()
@@ -281,7 +284,7 @@ void MainFrame::DrawWidgets()
 {
     m_filePanel = new FilePanel(this, wxPoint(32, 560), m_control);
     m_vhfPanel = new ChannelOffsetDataPanel(this, wxPoint(32, 16), "VHF Channels", m_control);
-    m_uhfPanel = new ChannelOffsetDataPanel(this, wxPoint(364, 16), "UHF Channels", m_control);
+    m_uhfPanel = new ChannelOffsetDataPanel(this, wxPoint(464, 16), "UHF Channels", m_control);
 
     CreateStatusBar(1);
     SetStatusText("Open an AnyTone 578/868/878/878II channel CSV file and select channels to modify offsets on");
@@ -305,6 +308,8 @@ void MainFrame::OnVhfPanelButtonClicked(wxCommandEvent &event)
         UpdateSelectedVhfData(vhfOffset);
     else if (event.GetId() == ChannelOffsetPanelButtonIds::IdApplyToAll)
         UpdateAllVhfData(vhfOffset);
+    else if (event.GetId() == ChannelOffsetPanelButtonIds::IdReset)
+        UpdateAllVhfData(0);
 
     m_vhfPanel->PrintDataToConsole();
 }
@@ -318,6 +323,8 @@ void MainFrame::OnUhfPanelButtonClicked(wxCommandEvent &event)
         UpdateSelectedUhfData(uhfOffset);
     else if (event.GetId() == ChannelOffsetPanelButtonIds::IdApplyToAll)
         UpdateAllUhfData(uhfOffset);
+    else if (event.GetId() == ChannelOffsetPanelButtonIds::IdReset)
+        UpdateAllUhfData(0);
     
     m_uhfPanel->PrintDataToConsole();
 }

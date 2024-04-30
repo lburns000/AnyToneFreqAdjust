@@ -112,16 +112,23 @@ public:
     ChannelOffsetListBox(wxWindow* parent, const wxPoint& position, const wxSize& size);
 
     void SetData(const ChannelOffsetDataList& data);
-    void GetData(ChannelOffsetDataList& data);
+    void GetData(ChannelOffsetDataList& data);    
+    void SelectAll() override;
+    void UnselectAll() override;
 
 private:
+    void UpdateData();
+
     ChannelOffsetDataList m_data;
 };
 
 enum ChannelOffsetPanelButtonIds
 {
     IdApplyToSelected,
-    IdApplyToAll
+    IdApplyToAll,
+    IdSelectAll,
+    IdSelectNone,
+    IdReset
 };
 
 class MainFrame;
@@ -143,6 +150,12 @@ private:
     void DrawControls();
     void BindControls();
 
+    void OnSelectAllButtonClicked(wxCommandEvent& evt);
+    void OnSelectAllButtonMouseOver(wxEvent& evt);
+    void OnSelectNoneButtonClicked(wxCommandEvent& evt);
+    void OnSelectNoneButtonMouseOver(wxEvent& evt);
+    void OnResetButtonClicked(wxCommandEvent& evt);
+    void OnResetButtonMouseOver(wxEvent& evt);
     void OnApplySelectedButtonClicked(wxCommandEvent& evt);
     void OnSelectedButtonMouseOver(wxEvent& evt);
     void OnApplyAllButtonClicked(wxCommandEvent& evt);
@@ -152,13 +165,17 @@ private:
     /**Get input text and sanitize it to be a valid integer.*/
     int GetOffsetInput();
 
-    void HandleCommonButtonClickTasks(wxCommandEvent& evt);
+    void HandleApplyButtonClickTasks(wxCommandEvent& evt);
+    void HandleSelectButtonClickTasks(wxCommandEvent& evt);
     bool CheckInputValid(int offset);
     void HandleInvalidInput(int offset);
 
     std::string           m_labelText;
     wxStaticText*         m_label;
     ChannelOffsetListBox* m_channelListBox;
+    wxButton*             m_selectAllButton;
+    wxButton*             m_selectNoneButton;
+    wxButton*             m_resetButton;
     wxStaticText*         m_offsetInputLabel;
     wxTextCtrl*           m_offsetInputText;
     wxButton*             m_applySelectedButton;
