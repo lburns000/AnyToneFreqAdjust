@@ -143,7 +143,7 @@ void ChannelOffsetData::SetOffset(int offset)
     m_offset = offset;
 }
 
-std::string ChannelOffsetData::GetItemAsString()
+std::string ChannelOffsetData::GetItemAsString() const
 {
     return std::string((m_selected ? "True" : "False")) + std::string(", ") + m_name + std::string(", ") + std::to_string(m_offset);
     
@@ -251,7 +251,7 @@ void ChannelOffsetDataList::RemoveAllItems()
 
 void ChannelOffsetDataList::PrintToConsole()
 {
-    for (auto listItem : m_data) {
+    for (const auto& listItem : m_data) {
         std::cout << listItem.GetItemAsString() << std::endl;
     }
 }
@@ -265,17 +265,6 @@ CheckBoxStringStringListBox(parent, position, size, 100, 170, 100, "Apply Offset
 
 void ChannelOffsetListBox::SetData(const ChannelOffsetDataList &data)
 {
-    // unsigned int size = data.GetSize();
-    // std::vector<bool> checkBoxData(size);
-    // std::vector<std::string> channelNameData(size);
-    // std::vector<std::string> offsetData(size);
-    // data.GetColumnData(checkBoxData, channelNameData, offsetData);
-    
-    // for (auto it : channelNameData) {
-    //     std::cout << "channelNameData at row is: " << it << std::endl;
-    // }
-
-    // CheckBoxStringStringListBox::SetData(checkBoxData, channelNameData, offsetData);
     m_data = data;
     UpdateData();
 }
@@ -300,7 +289,7 @@ void ChannelOffsetListBox::UpdateData()
     std::vector<std::string> offsetData(size);
     m_data.GetColumnData(checkBoxData, channelNameData, offsetData);
     
-    for (auto it : channelNameData) {
+    for (const auto& it : channelNameData) {
         std::cout << "channelNameData at row is: " << it << std::endl;
     }
 

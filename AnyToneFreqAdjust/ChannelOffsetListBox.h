@@ -68,7 +68,7 @@ public:
     void SetName(const std::string& name);
     void SetOffset(int offset);
 
-    std::string GetItemAsString();
+    std::string GetItemAsString() const;
 
 private:
     bool m_selected;
