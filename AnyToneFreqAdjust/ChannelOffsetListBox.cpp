@@ -219,7 +219,7 @@ void ChannelOffsetDataList::PrintToConsole()
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 ChannelOffsetListBox::ChannelOffsetListBox(wxWindow *parent, const wxPoint& position, const wxSize& size) :
-CheckBoxStringStringListBox(parent, position, size, 100, 200, 100, "Apply Offset", "Channel Name", "Current Offset")
+CheckBoxStringStringListBox(parent, position, size, 100, 180, 120, "Apply Offset", "Channel Name", "Current Offset")
 {
 }
 
