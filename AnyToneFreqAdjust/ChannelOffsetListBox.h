@@ -18,12 +18,6 @@ public:
         int leftColumnWidth = -1, int middleColumnWidth = -1, int rightcolumnWidth = -1,
         const std::string& leftColumnTitle = "", const std::string& middleColumnTitle = "", 
         const std::string& rightColumnTitle = "");
-    // void GetCheckBoxColumnData(std::vector<bool>& data);
-    // void GetMiddleColumnData(std::vector<std::string>& data);
-    // void GetRightColumnData(std::vector<std::string>& data);
-    // void SetCheckBoxColumnData(const std::vector<bool>& data);
-    // void SetMiddleColumnData(const std::vector<std::string>& data);
-    // void SetRightColumnData(const std::vector<std::string>& data);
     wxDataViewListStore* GetData() { return GetStore(); }
     void SetData(const std::vector<bool>& checkBoxData, const std::vector<std::string>& middleColumnData, const std::vector<std::string>& rightColumnData);
     bool GetCheckBoxAtRow(unsigned int row);
@@ -32,12 +26,6 @@ public:
     void SetCheckBoxValueAtRow(unsigned int row, bool value);
     void SetMiddleColumnValueAtRow(unsigned int row, const std::string& value);
     void SetRightColumnValueAtRow(unsigned int row, const std::string& value);
-    // void SetLeftColumnTitle(const std::string& title);
-    // void SetMiddleColumnTitle(const std::string& title);
-    // void SetRightColumnTitle(const std::string& title);
-
-    /**This function may not be used*/
-    // void Update();
 
 protected:
     void AddColumns();    
