@@ -67,7 +67,7 @@ bool CSVFile::CategoryExists(const std::string& category) const
     if (m_categories.size() == 0)
         return false;
 
-    for (auto it : m_categories) {
+    for (const auto& it : m_categories) {
         if (it == category)
             return true;
     }
