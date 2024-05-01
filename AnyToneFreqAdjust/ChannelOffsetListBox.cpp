@@ -183,7 +183,7 @@ void ChannelOffsetDataList::UnselectAllItems()
 
 void ChannelOffsetDataList::SetOffsetOnSelectedItems(int offset)
 {
-    for (auto it : m_data) {
+    for (auto& it : m_data) {
         if (it.GetSelectedValue()) {
             it.SetOffset(offset);
         }
@@ -192,7 +192,7 @@ void ChannelOffsetDataList::SetOffsetOnSelectedItems(int offset)
 
 void ChannelOffsetDataList::ResetOffsetOnSelectedItems()
 {
-    for (auto it : m_data) {
+    for (auto& it : m_data) {
         if (it.GetSelectedValue()) {
             it.SetOffset(0);
         }
@@ -259,7 +259,7 @@ void ChannelOffsetDataList::PrintToConsole()
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 ChannelOffsetListBox::ChannelOffsetListBox(wxWindow *parent, const wxPoint& position, const wxSize& size) :
-CheckBoxStringStringListBox(parent, position, size, 100, 170, 100, "Apply Offset", "Channel Name", "Current Offset")
+CheckBoxStringStringListBox(parent, position, size, 100, 200, 100, "Apply Offset", "Channel Name", "Current Offset")
 {
 }
 
