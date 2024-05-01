@@ -20,30 +20,6 @@ m_rightWidth(rightColumnWidth)
     AddColumns();
 }
 
-// void CheckBoxStringStringListBox::GetCheckBoxColumnData(std::vector<bool>& data)
-// {
-// }
-
-// void CheckBoxStringStringListBox::GetMiddleColumnData(std::vector<std::string>& data)
-// {
-// }
-
-// void CheckBoxStringStringListBox::GetRightColumnData(std::vector<std::string>& data)
-// {
-// }
-
-// void CheckBoxStringStringListBox::SetCheckBoxColumnData(const std::vector<bool>& data)
-// {
-// }
-
-// void CheckBoxStringStringListBox::SetMiddleColumnData(const std::vector<std::string>& data)
-// {
-// }
-
-// void CheckBoxStringStringListBox::SetRightColumnData(const std::vector<std::string>& data)
-// {
-// }
-
 void CheckBoxStringStringListBox::SetData(const std::vector<bool>& checkBoxData, const std::vector<std::string>& middleColumnData, 
     const std::vector<std::string>& rightColumnData)
 {
@@ -90,21 +66,6 @@ void CheckBoxStringStringListBox::SetRightColumnValueAtRow(unsigned int row, con
     SetTextValue(value, row, 2);
 }
 
-// void CheckBoxStringStringListBox::SetLeftColumnTitle(const std::string& title)
-// {
-//     GetColumn(0)->SetTitle(title);
-// }
-
-// void CheckBoxStringStringListBox::SetMiddleColumnTitle(const std::string& title)
-// {
-//     GetColumn(1)->SetTitle(title);
-// }
-
-// void CheckBoxStringStringListBox::SetRightColumnTitle(const std::string& title)
-// {
-//     GetColumn(2)->SetTitle(title);
-// }
-
 void CheckBoxStringStringListBox::AddColumns()
 {
     AppendToggleColumn(m_leftTitle, wxDATAVIEW_CELL_ACTIVATABLE, m_leftWidth, wxALIGN_CENTER_HORIZONTAL);
@@ -146,7 +107,6 @@ void ChannelOffsetData::SetOffset(int offset)
 std::string ChannelOffsetData::GetItemAsString() const
 {
     return std::string((m_selected ? "True" : "False")) + std::string(", ") + m_name + std::string(", ") + std::to_string(m_offset);
-    
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
