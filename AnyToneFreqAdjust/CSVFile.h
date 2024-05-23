@@ -38,8 +38,8 @@ public:
 	CSVFile(const std::string& filename);
 	~CSVFile();
 
-	bool CategoryExists(const std::string& category);
-	std::vector<std::string> GetItemsInCategory(std::string category);
+	bool CategoryExists(const std::string& category) const;
+	std::vector<std::string> GetItemsInCategory(const std::string& category) const;
 
 	void SetOffsetsUHF(int offset);
 	void SetOffsetsVHF(int offset);
@@ -49,7 +49,6 @@ public:
 
 private:
 	bool		Open(bool write = false);
-	bool		ReadCategories();
 	bool		PopulateData();
 	bool		ParseLine(const std::string& line, bool categories = false);
 	void		Close();
